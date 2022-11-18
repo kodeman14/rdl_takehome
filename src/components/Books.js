@@ -3,8 +3,18 @@ import { config } from '../assets/config'
 
 const Books = (props) => {
   const [faves, setFaves] = useState([])
-  const [ids, setIds] = useState([])
+  const [idsArr, setIdsArr] = useState([])
 
+  const addToFaves = (item) => {
+    console.log('fave', item)
+    setFaves([...faves, item])
+    setIdsArr([...idsArr, item.id])
+  }
+
+  useEffect(() => {
+    console.log('faves arr', faves)
+    props.createFaves(faves)
+  }, [faves])
 
   return (
     <table>
@@ -22,6 +32,11 @@ const Books = (props) => {
             <td id={config.columns[1].accessor}>{book.title}</td>
             <td id={config.columns[2].accessor}>{book.download_count}</td>
             <td id={config.columns[3].accessor}>{book.authors.length > 0 ? book.authors[0].name : 'N/A'}</td>
+            <td>
+              {idsArr.includes(book.id) ? 'ADDED'
+                : <button onClick={() => addToFaves(book)}>SHORTLIST</button>
+              }
+            </td>
           </tr>
         ))}
       </tbody>
