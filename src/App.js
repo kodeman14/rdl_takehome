@@ -66,6 +66,12 @@ function App() {
     setQuery(event.target.value)
     setEndpoint(config.sortEndpoint)
   }
+  const resetData = () => {
+    setQuery('')
+    setSearchTerm('')
+    setBooksTable([])
+    setEndpoint(config.apiEndpoint)
+  }
 
   useEffect(() => {
     fetchData()
@@ -109,6 +115,11 @@ function App() {
             count={booksCount}
             createFaves={setShortlist}
           />
+          <div className='table-footer'>
+            <button onClick={goPrev}>Previous</button>
+            {booksCount > 32 && <span>Page : {pageNum}</span>}
+            <button onClick={goNext}>Next</button>
+          </div>
         </div>
       ) : (
         <p className='no-results'>No Results</p>
