@@ -5,22 +5,53 @@ import { config } from './assets/config'
 import logo from './logo.svg'
 import './assets/App.css'
 
+import Books from './components/Books'
+import Shortlist from './components/Shortlist'
+
 function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [booksView, setBooksView] = useState(true)
 
+  const [shortlist, setShortlist] = useState([])
   const [booksTable, setBooksTable] = useState([])
 
   const [query, setQuery] = useState('')
+  const [pageNum, setPageNum] = useState(1)
+  const [booksCount, setBooksCount] = useState(0)
   const [endpoint, setEndpoint] = useState(config.apiEndpoint)
 
   const [prevPage, setPrevPage] = useState('')
+  const [nextPage, setNextPage] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const fetchData = async () => {
     setIsLoading(true)
     const data = await axios.get(endpoint + query)
       .then(res => res.data)
       .catch(err => console.error('throw', err))
+
+    if (data !== null) {
+      console.log('data avail', data)
+      setBooksTable(data.results)
+      setBooksCount(data.count)
+      setNextPage(data.next)
+      setPrevPage(data.previous)
+      setIsLoading(false)
+    } else console.error('not able to load', data)
+  }
+
+  const goNext = () => {
+    setEndpoint(nextPage)
+    setPageNum(nextPage.match(/=\s*(.*)$/)[1][0])
+    console.log('nextpage', nextPage)
+  }
+
+  const goPrev = () => {
+    prevPage !== null && setEndpoint(prevPage)
+    if (prevPage.includes('page=')) {
+      setPageNum(prevPage.match(/=\s*(.*)$/)[1][0])
+    } else setPageNum(1)
+  }
 
   const viewBooks = () => setBooksView(true)
   const viewShortlist = () => setBooksView(false)
