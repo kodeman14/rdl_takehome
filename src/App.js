@@ -37,6 +37,16 @@ function App() {
         <button onClick={viewShortlist}>MY LIST</button>
       </div>}
 
+      <section>
+        <input
+          type='text'
+          value={searchTerm}
+          onChange={handleInput}
+          placeholder='title or author'
+        />
+        <button disabled={!searchTerm} onClick={performSearch}>Search</button>
+        <button onClick={resetData}>Reset</button>
+      </section>
       {!booksView && shortlist && (
         <Shortlist shortlist={shortlist} />
       )}
