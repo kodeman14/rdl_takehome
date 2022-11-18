@@ -55,6 +55,17 @@ function App() {
 
   const viewBooks = () => setBooksView(true)
   const viewShortlist = () => setBooksView(false)
+  const handleInput = (event) => setSearchTerm(event.target.value)
+
+  const performSearch = () => {
+    setQuery(searchTerm)
+    setEndpoint(config.searchEndpoint)
+  }
+  const performSort = (event) => {
+    console.log('event', event.target.value)
+    setQuery(event.target.value)
+    setEndpoint(config.sortEndpoint)
+  }
 
   useEffect(() => {
     fetchData()
