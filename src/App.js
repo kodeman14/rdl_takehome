@@ -89,6 +89,31 @@ function App() {
         <button disabled={!searchTerm} onClick={performSearch}>Search</button>
         <button onClick={resetData}>Reset</button>
       </section>
+
+      {isLoading ? (
+        <img src={logo} className='App-logo' alt='logo' />
+      ) : booksView && booksTable && booksCount > 0 ? (
+        <div>
+          <h1>Total Count : {booksCount}</h1>
+          <div>
+            <label>SORT BY :</label>
+            <select value={query} onChange={performSort}>
+              <option value="ascending">Ascending</option>
+              <option value="descending">Descending</option>
+              <option value="popular">Popular</option>
+            </select>
+          </div>
+          <Books
+            key={endpoint}
+            books={booksTable}
+            count={booksCount}
+            createFaves={setShortlist}
+          />
+        </div>
+      ) : (
+        <p className='no-results'>No Results</p>
+      )}
+
       {!booksView && shortlist && (
         <Shortlist shortlist={shortlist} />
       )}
