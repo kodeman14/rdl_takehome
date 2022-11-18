@@ -37,6 +37,9 @@ function App() {
         <button onClick={viewShortlist}>MY LIST</button>
       </div>}
 
+      {!booksView && shortlist && (
+        <Shortlist shortlist={shortlist} />
+      )}
     </div>
   )
 }
